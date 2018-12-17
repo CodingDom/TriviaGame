@@ -1,5 +1,39 @@
-body {
+html,body {
     height: 100%;
     width: 100%;
+    background-color: rgb(163, 47, 47);
+    color: black;
+    font-family: 'Russo One', sans-serif;
+    text-align: center;
+    letter-spacing: 2px;
+}
+/* #F5F5DC */
+header {
+    height: 10%;
+    width: 100%;
     background-color: #CB3D3D;
+    border-bottom: 3px #B13535;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    box-shadow: 2px 0 3px 2px rgba(0,0,0,0.3);
+}
+
+h1 {
+    color: white;
+    font-size: 44px;
+    line-height: 10vh; /* Match height of header to center vertically */
+}
+
+#game-container {
+    height: 90%;
+    width: 100%;
+    overflow: hidden;
+}
+
+#questions {
+    height: 40%;
+    width: 50%;
+    margin: 10px auto;
+    border-radius: 30px;
+    background-color: rgba(255, 255, 255, 0.9);
 }

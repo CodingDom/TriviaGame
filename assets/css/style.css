@@ -1,18 +1,19 @@
 html,body {
     height: 100%;
     width: 100%;
-    background-color: rgb(163, 47, 47);
-    color: black;
     font-family: 'Russo One', sans-serif;
     text-align: center;
     letter-spacing: 2px;
+    background-image: url("../images/full-bloom.png");
+    background-blend-mode: multiply;
+    background-color: rgb(87, 203, 203);
+    color: black;
 }
 /* #F5F5DC */
 header {
     height: 10%;
     width: 100%;
-    background-color: #CB3D3D;
-    border-bottom: 3px #B13535;
+    background-color: #3d9dcb;
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
     box-shadow: 2px 0 3px 2px rgba(0,0,0,0.3);
@@ -26,14 +27,52 @@ h1 {
 
 #game-container {
     height: 90%;
-    width: 100%;
+    width: 90%;
+    margin: auto;
     overflow: hidden;
 }
 
-#questions {
-    height: 40%;
-    width: 50%;
-    margin: 10px auto;
-    border-radius: 30px;
+.tab {
+    display: table;
     background-color: rgba(255, 255, 255, 0.9);
+}
+
+#questions {
+    display: table;
+    height: 30%;
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 30px;
+}
+
+p {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 32px;
+}
+
+#choices {
+    height: 60%;
+}
+
+#choices .tab {
+    height: 15%;
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 15px;
+    box-shadow: 0 5px 0 0 rgb(127, 127, 127, 0.5);
+}
+
+@media screen and (min-width: 961px) {
+    #game-container {
+        width: 50%;
+    }
+
+    #questions {
+        height: 40%;
+    }
+
+    #choices .tab:hover {
+        background-color: rgb(248, 151, 72);
+    }
 }

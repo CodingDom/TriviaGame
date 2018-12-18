@@ -64,7 +64,7 @@ p {
     box-shadow: 0 5px 2px 0 rgb(59, 136, 136);
 }
 
-@media screen and (min-width: 768px) and (max-width: 981px) {
+@media screen and (min-width: 768px) and (max-width: 981px) and (orientation: landscape) {
     #choices .tab {
         height: 40%;
         width: 47.5%;

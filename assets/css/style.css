@@ -26,6 +26,7 @@ h1 {
 }
 
 #game-container {
+    position: relative;
     height: 90%;
     width: 90%;
     margin: auto;
@@ -60,12 +61,25 @@ p {
     width: 100%;
     margin: 20px 0;
     border-radius: 15px;
-    box-shadow: 0 5px 0 0 rgb(59, 136, 136);
+    box-shadow: 0 5px 2px 0 rgb(59, 136, 136);
 }
 
-@media all and (min-width: 981px) {
+@media screen and (min-width: 768px) and (max-width: 981px) {
+    #choices .tab {
+        height: 40%;
+        width: 47.5%;
+        float: left;
+    }
+
+    #choices .tab:nth-child(odd) {
+        margin-right: 5%;
+    }
+}
+
+@media screen and (min-width: 981px) {
     #game-container {
         width: 50%;
+        min-width: 960px;
     }
 
     #questions {

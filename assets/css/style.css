@@ -1,6 +1,9 @@
 html,body {
     height: 100%;
     width: 100%;
+}
+
+body {
     font-family: 'Russo One', sans-serif;
     text-align: center;
     letter-spacing: 2px;
@@ -9,6 +12,7 @@ html,body {
     background-color: rgb(87, 203, 203);
     color: black;
 }
+
 /* #F5F5DC */
 header {
     height: 10%;

@@ -1,35 +1,3 @@
-var questions = {
-    "History": [{
-        q: "Who was the first president?",
-        a: "George Washington",
-        category: "figures"
-    },
-    {
-        q: "What is the name of the scientist who stuck out his tongue for a photo?",
-        a: "Albert Einstein",
-        category: "figures"
-    },
-    {
-        q: "What is the name of the man who invented the car?",
-        a: "Karl Benz",
-        category: "figures"
-    },
-    {
-        q: "Who was the man who flew a kite into a thunderstorm?",
-        a: "Benjamin Franklin",
-        category: "figures"
-    }],
-    "Sports": [{
-
-    }],
-};
-
-var choices = {
-    "History": {
-        "figures": ["George Washington", "Benjamin Franklin", "Albert Einstein", "Karl Benz", "Martin Luther King Jr.", "Abraham Lincoln", "John Adams", "Rosa Parks", "Theodore Roosevelt"]
-    },
-};
-
 var myGameArea = {
 };
 
@@ -49,10 +17,10 @@ var myGameStats = {
 };
 
 function display(subject) {
-    var question = questions[subject][0];
+    var question = _G.myQuestions.questions[subject][Math.floor(Math.random()*_G.myQuestions.questions[subject].length)];
     $('#question').text(question.q);
     $('#choices').html(''); //Clearing answer choices
-    let currChoices = choices[subject][question.category];
+    let currChoices = _G.myQuestions.choices[subject][question.category];
     currChoices.splice(currChoices.indexOf(question.a),1);
     for (var i = 0; i < 3; i++) {
         const randomIndex = Math.floor(Math.random()*currChoices.length);
@@ -60,7 +28,15 @@ function display(subject) {
         currChoices.splice(randomIndex,1);
     };
     
-    $("<div class='tab'> <p>" + question.a + "</p> </div>").insertBefore($("#choices").children()[Math.floor(Math.random()*3)]);
+    var correctBtn = $("<div class='tab'> <p>" + question.a + "</p> </div>");
+    var randomIndex = Math.floor(Math.random()*4);
+    if (randomIndex == 3) {
+        $("#choices").append(correctBtn);
+    }
+    else {
+        correctBtn.insertBefore($("#choices").children()[randomIndex]);
+    }
+    
     
 };
 

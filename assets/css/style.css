@@ -7,14 +7,17 @@ body {
     font-family: 'Russo One', sans-serif;
     text-align: center;
     letter-spacing: 2px;
-    background-image: url("../images/full-bloom.png");
-    background-blend-mode: multiply;
-    background-color: rgb(87, 203, 203);
-    color: black;
+    background-image: url("../images/main.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    overflow: hidden;
 }
 
 /* #F5F5DC */
 header {
+    display: none;
     height: 10%;
     width: 100%;
     background-color: #3d9dcb;
@@ -29,8 +32,37 @@ h1 {
     line-height: 10vh; /* Match height of header to center vertically */
 }
 
+.btn {
+    display: table;
+    background-image: url("../images/btn.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    font-size: 36px;
+    filter: sepia(1);
+}
+
+#intro-container {
+    height: 100%;
+    width: 100%;
+}
+
+#btn-container {
+    position: absolute;
+    height: 50%;
+    width: 100%;
+    bottom: 0;
+}
+
+#play {
+    position: relative;
+    width: 342px;
+    height: 99px;
+    margin: auto;
+}
+
 #game-container {
     position: relative;
+    display: none;
     height: 90%;
     width: 90%;
     margin: auto;
@@ -48,12 +80,12 @@ h1 {
     width: 100%;
     margin: 20px 0;
     border-radius: 30px;
+    font-size: 32px;
 }
 
 p {
     display: table-cell;
     vertical-align: middle;
-    font-size: 32px;
 }
 
 #choices {
@@ -81,6 +113,10 @@ p {
 }
 
 @media screen and (min-width: 981px) {
+    .btn:hover {
+        filter: sepia(1) brightness(1.5);
+    }
+
     #game-container {
         width: 50%;
         min-width: 960px;

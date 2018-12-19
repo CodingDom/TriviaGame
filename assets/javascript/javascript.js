@@ -43,3 +43,14 @@ function display(subject) {
 myGameStats.reset();
 
 display("History");
+
+$("#background").css("right","-100%");
+
+function loopFog() {
+    $("#background").animate({"right":"0%"},30000,function() {
+        $("#background").css("right","-100%");
+        loopFog();
+    });
+};
+
+loopFog();

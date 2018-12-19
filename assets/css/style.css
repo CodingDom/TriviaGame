@@ -32,6 +32,22 @@ h1 {
     line-height: 10vh; /* Match height of header to center vertically */
 }
 
+#background {
+    position: absolute;
+    height: 100%;
+    width: 200%;
+    opacity: 0.5;
+    background-image: url("../images/fog.png");
+    background-repeat: repeat-x;
+    background-size: contain;
+}
+
+#intro-container {
+    height: 100%;
+    width: 100%;
+    z-index: 5;
+}
+
 .btn {
     display: table;
     background-image: url("../images/btn.png");
@@ -39,11 +55,6 @@ h1 {
     background-size: contain;
     font-size: 36px;
     filter: sepia(1);
-}
-
-#intro-container {
-    height: 100%;
-    width: 100%;
 }
 
 #btn-container {

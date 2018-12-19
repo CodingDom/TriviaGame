@@ -44,11 +44,11 @@ myGameStats.reset();
 
 display("History");
 
-$("#background").css("right","-100%");
+$("#background").css("right","-368vh");
 
 function loopFog() {
-    $("#background").animate({"right":"0%"},30000,function() {
-        $("#background").css("right","-100%");
+    $("#background").animate({"right":"-184vh"},30000,"linear",function() {
+        $("#background").css("right","-368vh");
         loopFog();
     });
 };

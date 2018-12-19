@@ -41,6 +41,7 @@ h1 {
     background-image: url("../images/fog.png");
     background-repeat: repeat-x;
     background-size: contain;
+    filter: brightness(0.7);
 }
 
 #intro-container {

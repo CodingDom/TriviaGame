@@ -1,4 +1,10 @@
 var myGameArea = {
+    loopFog : function() {
+        $("#background").animate({"right":"-184vh"},60000,"linear",function() {
+            $("#background").css("right","-552vh");
+            myGameArea.loopFog();
+        });
+    },
 };
 
 var myGameStats = {
@@ -44,13 +50,6 @@ myGameStats.reset();
 
 display("History");
 
-$("#background").css("right","-368vh");
+$("#background").css("right","-552vh");
 
-function loopFog() {
-    $("#background").animate({"right":"-184vh"},30000,"linear",function() {
-        $("#background").css("right","-368vh");
-        loopFog();
-    });
-};
-
-loopFog();
+myGameArea.loopFog();

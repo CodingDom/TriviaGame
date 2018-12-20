@@ -26,15 +26,16 @@ function display(subject) {
     var question = _G.myQuestions.questions[subject][Math.floor(Math.random()*_G.myQuestions.questions[subject].length)];
     $('#question').text(question.q);
     $('#choices').html(''); //Clearing answer choices
-    let currChoices = _G.myQuestions.choices[subject][question.category];
-    currChoices.splice(currChoices.indexOf(question.a),1);
-    for (var i = 0; i < 3; i++) {
+    let currChoices = question.choices.slice();
+    let newChoice = "<div class='tab'> <p>Replacement</p> <img src='assets/images/btn2.png' height='100%' width='100%' style='position:absolute;display:block;left:0;'> </div>"
+    
+    for (var i = 0; i < question.choices.length; i++) {
         const randomIndex = Math.floor(Math.random()*currChoices.length);
-        $('#choices').append($("<div class='tab'> <p>" + currChoices[randomIndex] + "</p> </div>"));
+        $('#choices').append($(newChoice.replace("Replacement",currChoices[randomIndex])));
         currChoices.splice(randomIndex,1);
     };
-    
-    var correctBtn = $("<div class='tab'> <p>" + question.a + "</p> </div>");
+    //<img src='assets/images/btn2.png' height='100%' width='100%' position='absolute'>
+    var correctBtn = $(newChoice.replace("Replacement",question.a));
     var randomIndex = Math.floor(Math.random()*4);
     if (randomIndex == 3) {
         $("#choices").append(correctBtn);
@@ -48,8 +49,13 @@ function display(subject) {
 
 myGameStats.reset();
 
-display("History");
+display("Chucky");
 
 $("#background").css("right","-552vh");
 
 myGameArea.loopFog();
+
+$("#play").on("click", function() {
+    $("#intro-container").css("display","none");
+    $("#game-container").css("display","block");
+});

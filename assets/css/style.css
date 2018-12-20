@@ -89,7 +89,7 @@ h1 {
 }
 
 .tab img {
-    filter: sepia(1);
+    filter: grayscale(1) brightness(0.75);
 }
 
 #questions {
@@ -145,8 +145,5 @@ p {
     #questions {
         height: 40%;
     }
-
-    #choices .tab:hover {
-        filter: sepia(1) brightness(1.25);
-    }
+    
 }

@@ -52,8 +52,12 @@ _G.myQuestions = {
             a: "Chucky",
             choices: ["An undertaker","Jane","Police officer"]
         }],
-        "Sports": [{
-    
-        }],
+        "Sports": [
+        {
+            q: "Who is the kid that Chucky is after from the first Child's play to the second Child's play?",
+            a: "Andy Barclay",
+            choices: ["Tyler Montana","Andrew Henderson"]
+        },
+        ],
     },
 };

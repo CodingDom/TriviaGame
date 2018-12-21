@@ -52,11 +52,36 @@ _G.myQuestions = {
             a: "Chucky",
             choices: ["An undertaker","Jane","Police officer"]
         }],
-        "Sports": [
+        "Freddy": [
         {
-            q: "Who is the kid that Chucky is after from the first Child's play to the second Child's play?",
-            a: "Andy Barclay",
-            choices: ["Tyler Montana","Andrew Henderson"]
+            q: "How did Amanda Krueger become Freddy's mother?",
+            a: "She was raped",
+            choices: ["She adopted him","She was his siter", "She's not his mother"]
+        },
+        {
+            q: "In 'Freddy vs Jason', what did Kia call Freddy's blades, that were on his glove?",
+            a: "Butter knives",
+            choices: ["Childish","Stupid", "Not scary"]
+        },
+        {
+            q: "How did Amanda Krueger become Freddy's mother?",
+            a: "She was raped",
+            choices: ["She adopted him","She was his siter", "She's not his mother"]
+        },
+        {
+            q: "How did Amanda Krueger become Freddy's mother?",
+            a: "She was raped",
+            choices: ["She adopted him","She was his siter", "She's not his mother"]
+        },
+        {
+            q: "How did Amanda Krueger become Freddy's mother?",
+            a: "She was raped",
+            choices: ["She adopted him","She was his siter", "She's not his mother"]
+        },
+        {
+            q: "How did Amanda Krueger become Freddy's mother?",
+            a: "She was raped",
+            choices: ["She adopted him","She was his siter", "She's not his mother"]
         },
         ],
     },

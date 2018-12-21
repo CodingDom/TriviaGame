@@ -1,5 +1,7 @@
 var myGameArea = {
+    fogger : false,
     loopFog : function() {
+        if (this.fogger == false) {return;};
         $("#background").animate({"right":"-184vh"},60000,"linear",function() {
             $("#background").css("right","-552vh");
             myGameArea.loopFog();
@@ -80,5 +82,18 @@ myGameArea.loopFog();
 $("#play").on("click", function() {
     $("#intro-container").css("display","none");
     $("#game-container").css("display","block");
+    $("#ambience").get()[0].play();
 });
+
+$(window).focus(function() {
+    myGameArea.fogger = true;
+    myGameArea.loopFog();
+    $("#ambience").get()[0].play();
+});
+
+$(window).blur(function() {
+    myGameArea.fogger = false;
+    $("#ambience").get()[0].pause();
+});
+
 });

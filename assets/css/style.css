@@ -41,7 +41,7 @@ h1 {
     background-image: url("../images/fog.png");
     background-repeat: repeat-x;
     background-size: contain;
-    filter: brightness(0.7);
+    filter: brightness(0);
 }
 
 #intro-container {
@@ -56,7 +56,7 @@ h1 {
     background-repeat: no-repeat;
     background-size: contain;
     font-size: 36px;
-    filter: sepia(1);
+    filter: grayscale(1);
 }
 
 #btn-container {
@@ -134,7 +134,7 @@ p {
 
 @media screen and (min-width: 981px) {
     .btn:hover {
-        filter: sepia(1) brightness(1.5);
+        filter: grayscale(1) brightness(1.5);
     }
 
     #game-container {

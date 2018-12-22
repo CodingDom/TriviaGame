@@ -6,8 +6,9 @@ var myGameArea = {
     canvas : $("canvas").get()[0],
     fog : [new component(0, 0, "assets/images/fog.png", 0, 0, "image"),new component(0, 0, "assets/images/fog.png", 0, 0, "image")],
     mode : "intro",
-    display(subject) {
-        if (_G.myQuestions.questions.length == myGameStats.question) {
+    display() {
+        const subject = myGameStats.subject;
+        if (_G.myQuestions.questions[subject].length <= myGameStats.question) {
             this.end();
             return;
         };
@@ -53,6 +54,8 @@ var myGameArea = {
         $("#choices .tab").on("click", function(event) {
             $("#choices .tab").off("click"); //Turn off event listener
             myGameArea.mode = "transition";
+            $("#countdown").get()[0].pause();
+            $("#countdown").get()[0].load() // Restarts audio
             $("#choices .tab img").css("filter","grayscale(1) brightness(0.75)");
             if (this == correctBtn.get()[0]) {
                 correctBtn.find("img").css("filter","hue-rotate(100deg) brightness(1)");
@@ -86,7 +89,7 @@ var myGameArea = {
             $("#countdown").get()[0].currentTime = 18;
             setTimeout(function() {
                 myGameStats.question++;
-                myGameArea.display("Chucky");
+                myGameArea.display();
                 $("#countdown").get()[0].pause();
                 $("#countdown").get()[0].load(); //Restarts audio
             },2100);
@@ -97,8 +100,8 @@ var myGameArea = {
     },
 
     end() {
-        myGameArea.mode = "ending";
-        $("#game-container").display("none");
+        this.mode = "ending";
+        $("#game-container").css("display","none");
     },
 
     clear() {
@@ -114,6 +117,7 @@ var myGameStats = {
     incorrect: 0,
     correct: 0,
     question: 0,
+    subject: 'Chucky',
     reset: function() {
         var arr = Object.keys(this);
         for (var i = 0; i < arr.length; i++) {
@@ -208,7 +212,7 @@ $("#play").on("click", function() {
     $("#game-container").css("display","block");
     $("#ambience").get()[0].volume = 0.6;
     $("#ambience").get()[0].play(); //Playing background mmusic
-    myGameArea.display("Chucky");
+    myGameArea.display();
 });
 
 //When the user comes back to the page

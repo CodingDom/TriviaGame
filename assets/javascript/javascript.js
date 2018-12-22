@@ -1,11 +1,14 @@
 $(document).ready(function(){
 
 var fps = 50; //50 frames per second
+var frame = 0; //Current frame
+var seconds = 0;//Current amount of seconds
 
 var myGameArea = {
     canvas : $("canvas").get()[0],
     fog : [new component(0, 0, "assets/images/fog.png", 0, 0, "image"),new component(0, 0, "assets/images/fog.png", 0, 0, "image")],
     mode : "intro",
+    //Display question
     display() {
         const subject = myGameStats.subject;
         if (_G.myQuestions[subject].length <= myGameStats.question) {
@@ -13,17 +16,17 @@ var myGameArea = {
             return;
         };
         const question = _G.myQuestions[subject][myGameStats.question];
-        myGameArea.mode = "transition";
+        this.mode = "transition";
         $("#transition").css("display","block");
         var static = $("#static").get()[0];
         static.volume = 0.3;
         static.play();
-        setTimeout(function() {
+        setTimeout(() => {
             $("#transition").css("display","none");
             static.pause();
             static.load(); //Restart audio
             frame = 0;
-            myGameArea.mode = "playing";
+            this.mode = "playing";
         },2000);
         //Reset timer
         seconds = 30;
@@ -51,9 +54,9 @@ var myGameArea = {
             correctBtn.insertBefore($("#choices").children()[randomIndex]);
         };
         
-        $("#choices .tab").on("click", function(event) {
+        $("#choices .tab").on("click", (event) => {
             $("#choices .tab").off("click"); //Turn off event listener
-            myGameArea.mode = "transition";
+            this.mode = "transition";
             $("#countdown").get()[0].pause();
             $("#countdown").get()[0].load() // Restarts audio
             $("#choices .tab img").css("filter","grayscale(1) brightness(0.75)");
@@ -68,15 +71,15 @@ var myGameArea = {
                 $("#incorrect").get()[0].play();
             };
             correctBtn.find("img").css("filter","hue-rotate(100deg) brightness(1)"); //Display correct answer
-            setTimeout(function() {
+            setTimeout(() => {
                 myGameStats.question++;
-                myGameArea.display(subject);
+                this.display(subject);
             },2000);
         });
     },
 
     timer() {
-        let dispSeconds = seconds;
+        let dispSeconds = seconds; //Creating variable to store current seconds
         if (seconds < 10) {
             if (seconds == 9) {
                 $("#countdown").get()[0].play();
@@ -90,12 +93,12 @@ var myGameArea = {
             $("#choices .tab").off("click"); //Turn off answer choices click listener
             $("#choices .tab").find("img").css("filter","brightness(1)");
             $("#countdown").get()[0].currentTime = 18;
-            setTimeout(function() {
+            setTimeout(() => {
                 $("#countdown").get()[0].pause();
                 $("#countdown").get()[0].load(); //Restarts audio
-                setTimeout(function() {
+                setTimeout(() => {
                     myGameStats.question++;
-                    myGameArea.display();
+                    this.display();
                 },1000);
             },3000);
 
@@ -103,7 +106,7 @@ var myGameArea = {
         };
         $("#time").text(dispSeconds);
     },
-
+    //End screen
     end() {
         console.log(this.mode);
         this.mode = "end";
@@ -116,7 +119,7 @@ var myGameArea = {
         myGameStats.scar = myGameStats.correct/total < 0.7 || true;
         console.log(myGameStats.correct/total);
     },
-
+    //Clearing the canvas drawings
     clear() {
         if (!this.context) {return;};
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -152,12 +155,15 @@ function component(width, height, appearance, x, y, type) {
     };
     this.width = width;
     this.height = height;
+    //Component's movement
     this.left = 0;
     this.right = 0;
     this.up = 0;
     this.down = 0;
+    //Actual axis positioning
     this.x = x;
     this.y = y;  
+    //Used to draw component
     this.update = function() {
         ctx = myGameArea.context;
         if (type == "image") {
@@ -168,6 +174,7 @@ function component(width, height, appearance, x, y, type) {
                 this.height);
         };
     };
+    //Repositioning componenet
     this.newPos = function() {
         if (this.x < -this.width+10) {
             this.x = myGameArea.canvas.width-10;
@@ -187,8 +194,6 @@ myGameArea.fog[1].x = fogWidth/2;
 fogWidth = null;
 
 //Update canvas frames
-var frame = 0;
-var seconds = 30;
 function updateGameArea() {
     if (myGameArea.mode === "playing") {
         frame++;
@@ -203,24 +208,36 @@ function updateGameArea() {
     myGameArea.canvas.height = parseInt(windowHeight);
     myGameArea.canvas.width = parseInt(windowWidth);
     myGameArea.clear();
-   
+   var randomEffect = Math.floor(Math.random()*1000);
+
     myGameArea.fog.forEach(function(fog) {
-        fog.left = 1;
-        fog.height = windowHeight;
-        fog.width = windowHeight*1.84;
-        fog.newPos();
-        myGameArea.context.globalAlpha = 0.5;
+        fog.left = 1; //Move fog to the left
+        fog.height = windowHeight; //Set height of fog to the window's height
+        fog.width = windowHeight*1.84; //Keep fog's height to width ratio
+        fog.newPos(); //Reposition fog
+        //Defaults fog's filters
+        myGameArea.context.filter = "brightness(0.5) opacity(0.5)";
+        //Thunder effect
+        if (randomEffect == 10 || myGameArea.activeEffect) {
+            myGameArea.context.filter = "brightness(0.8) opacity(0.5)";
+            if (!myGameArea.activeEffect) {
+                myGameArea.activeEffect = "thunder";
+                $("#thunder").get()[0].currentTime = 0.5;
+                $("#thunder").get()[0].play();
+                setTimeout(function() {
+                    myGameArea.activeEffect = undefined;
+                },1000);
+            };
+        };
+        //Draw fog and reset filters
         fog.update();
-        myGameArea.context.globalAlpha = 1;
+        myGameArea.context.filter = "";
     });
 };
 
-myGameStats.reset();
-
-$("#background").css("right","-552vh");
-
 //Starting the game
 $("#play").on("click", function() {
+    myGameStats.reset();
     $("#intro-container").css("display","none");
     $("#game-container").css("display","block");
     $("#ambience").get()[0].volume = 0.6;
@@ -228,9 +245,11 @@ $("#play").on("click", function() {
     myGameArea.display();
 });
 
+//Restart quiz
 $("#play-again").on("click", function() {
     $("#end-screen").css("display","none");
     myGameStats.reset();
+    //Used for scarring the user
     if (myGameStats.scar) {
         myGameArea.mode = "transition";
         $("#transition").css("display","block");

@@ -1,11 +1,35 @@
 $(document).ready(function(){
 
+var fps = 50; //50 frames per second
+
 var myGameArea = {
     canvas : $("canvas").get()[0],
     fog : [new component(0, 0, "assets/images/fog.png", 0, 0, "image"),new component(0, 0, "assets/images/fog.png", 0, 0, "image")],
-    
-    display(subject,index) {
-        const question = _G.myQuestions.questions[subject][index];
+    mode : "intro",
+    display(subject) {
+        if (_G.myQuestions.questions.length == myGameStats.question) {
+            this.end();
+            return;
+        };
+        const question = _G.myQuestions.questions[subject][myGameStats.question];
+        myGameArea.mode = "transition";
+        $("#transition").css("display","block");
+        var static = $("#static").get()[0];
+        static.volume = 0.3;
+        static.play();
+        setTimeout(function() {
+            $("#transition").css("display","none");
+            static.pause();
+            static.load(); //Restart audio
+            frame = 0;
+            myGameArea.mode = "playing";
+        },2000);
+        //Reset timer
+        seconds = 30;
+        $("#time").css("color","white");
+        $("#time").text(seconds);
+        
+        //Reset text
         $('#question').text(question.q);
         $('#choices').html(''); //Clearing answer choices
         let currChoices = question.choices.slice();
@@ -28,6 +52,7 @@ var myGameArea = {
         
         $("#choices .tab").on("click", function(event) {
             $("#choices .tab").off("click"); //Turn off event listener
+            myGameArea.mode = "transition";
             $("#choices .tab img").css("filter","grayscale(1) brightness(0.75)");
             if (this == correctBtn.get()[0]) {
                 correctBtn.find("img").css("filter","hue-rotate(100deg) brightness(1)");
@@ -38,35 +63,57 @@ var myGameArea = {
                 myGameStats.incorrect++;
             };
             setTimeout(function() {
-                $("#transition").css("display","block");
-                var static = $("#static").get()[0]
-                static.play();
-                setTimeout(function() {
-                    myGameArea.display(subject,index+1);
-                    $("#transition").css("display","none");
-                    static.pause();
-                },2000);
+                myGameStats.question++;
+                myGameArea.display(subject);
             },2000);
         });
     },
 
     timer() {
+        let dispSeconds = seconds;
+        if (seconds < 10) {
+            if (seconds == 9) {
+                $("#countdown").get()[0].play();
+            };
+            dispSeconds = "0" + dispSeconds;
+            $("#time").css({"color":"red","font-size":"44px"});
+            $("#time").animate({"font-size":"32px"},300);
+        }
 
+        if (seconds <= 0) {
+            $("#choices .tab").off("click"); //Turn off answer choices click listener
+            $("#choices .tab");
+            $("#countdown").get()[0].currentTime = 18;
+            setTimeout(function() {
+                myGameStats.question++;
+                myGameArea.display("Chucky");
+                $("#countdown").get()[0].pause();
+                $("#countdown").get()[0].load(); //Restarts audio
+            },2100);
+
+           
+        };
+        $("#time").text(dispSeconds);
     },
 
-    clear : function() {
+    end() {
+        myGameArea.mode = "ending";
+        $("#game-container").display("none");
+    },
+
+    clear() {
         if (!this.context) {return;};
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
 
-    interval : setInterval(updateGameArea, 1000/50)
+    interval : setInterval(updateGameArea, 1000/fps)
 };
 myGameArea.context = myGameArea.canvas.getContext("2d"); //Drawing tool
 
 var myGameStats = {
     incorrect: 0,
     correct: 0,
-
+    question: 0,
     reset: function() {
         var arr = Object.keys(this);
         for (var i = 0; i < arr.length; i++) {
@@ -106,6 +153,7 @@ function component(width, height, appearance, x, y, type) {
     this.newPos = function() {
         if (this.x < -this.width+10) {
             this.x = myGameArea.canvas.width-10;
+            this.y = 100-Math.floor(Math.random()*200);
         };
         this.x -= this.left;
         this.y += (-this.up)+(-this.down); 
@@ -122,8 +170,15 @@ fogWidth = null;
 
 //Update canvas frames
 var frame = 0;
+var seconds = 30;
 function updateGameArea() {
-    frame++;
+    if (myGameArea.mode === "playing") {
+        frame++;
+        if (frame%fps == 0 && seconds > 0) {
+            seconds -= 1;
+            myGameArea.timer(seconds); // Converting frame to seconds 
+        };
+    };
     comp = getComputedStyle(document.body);
     var windowHeight = comp.height.replace("px","");
     var windowWidth = comp.width.replace("px","");
@@ -144,7 +199,6 @@ function updateGameArea() {
 
 
 myGameStats.reset();
-myGameArea.display("Chucky",0);
 
 $("#background").css("right","-552vh");
 
@@ -152,7 +206,9 @@ $("#background").css("right","-552vh");
 $("#play").on("click", function() {
     $("#intro-container").css("display","none");
     $("#game-container").css("display","block");
+    $("#ambience").get()[0].volume = 0.6;
     $("#ambience").get()[0].play(); //Playing background mmusic
+    myGameArea.display("Chucky");
 });
 
 //When the user comes back to the page
@@ -162,7 +218,6 @@ $(window).focus(function() {
 
 //When the user leaves the page
 $(window).blur(function() {
-    myGameArea.fogger = false;
     $("#ambience").get()[0].pause();
 });
 

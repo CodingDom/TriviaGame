@@ -105,8 +105,8 @@ p {
 #time {
     position: absolute;
     display: block;
-    bottom: 15%;
-    padding-left: 39%;
+    width: 100%;
+    bottom: 10%;
     font-size: 32px;
 }
 

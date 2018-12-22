@@ -141,8 +141,29 @@ p {
     /* box-shadow: 0 5px 2px 0 rgb(136, 59, 59); */
 }
 
+#pause-screen {
+    position: relative;
+    width: 50%;
+    display: none;
+    margin: auto;
+    margin-top: 30vh;
+    padding: 30px 0;
+    background-image: radial-gradient(rgb(70, 70, 70), black);
+    border-radius: 30px;
+    border: 2px solid white;
+}
+
+#pause-heading {
+    position: relative;
+    display: inline-block;
+    font-size: 32px;
+    margin: 30px;
+}
+
+
 #end-screen {
     position: relative;
+    display: none;
     height: 50%;
     width: 50%;
     margin: auto;
@@ -181,7 +202,7 @@ p {
     width: 100%;
 }
 
-#play-again {
+#play-again,#resume {
     position: relative;
     width: 342px;
     height: 99px;

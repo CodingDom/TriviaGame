@@ -4,10 +4,12 @@ var fps = 50; //50 frames per second
 var frame = 0; //Current frame
 var seconds = 30;//Current amount of seconds
 
+
 var myGameArea = {
     canvas : $("canvas").get()[0],
     fog : [new component(0, 0, "assets/images/fog.png", 0, 0, "image"),new component(0, 0, "assets/images/fog.png", 0, 0, "image")],
     mode : "intro",
+    userPresent : true,
     //Display question
     display() {
         const subject = myGameStats.subject;
@@ -90,16 +92,34 @@ var myGameArea = {
         }
 
         if (seconds <= 0) {
-            $("#choices .tab").off("click"); //Turn off answer choices click listener
-            $("#choices .tab").find("img").css("filter","brightness(1)");
+            const tabs = $("#choices .tab");
+            tabs.off("click"); //Turn off answer choices click listener
+            tabs.find("img").css("filter","brightness(1)");
+
+            //Find correct answer and highlight it
+            for (let i = 0; i < tabs.length; i++) {
+                let choice = $(tabs[i]);
+                if (choice.find("p").text() == _G.myQuestions[myGameStats.subject][myGameStats.question].a) {
+                    choice.find("img").css("filter","hue-rotate(100deg) brightness(1)");
+                };
+            };
+
             $("#countdown").get()[0].currentTime = 18;
             setTimeout(() => {
                 $("#countdown").get()[0].pause();
                 $("#countdown").get()[0].load(); //Restarts audio
-                setTimeout(() => {
-                    myGameStats.question++;
-                    this.display();
-                },1000);
+                myGameStats.question++;
+                //Checking if user is still playing
+                if (this.userPresent) {
+                    setTimeout(() => {
+                        this.display();
+                    },1000);
+                }
+                else {
+                    $("#game-container").css("display","none");
+                    $("#pause-screen").css("display","block");
+                    clearInterval(this.interval);
+                };
             },3000);
 
            
@@ -108,7 +128,6 @@ var myGameArea = {
     },
     //End screen
     end() {
-        console.log(this.mode);
         this.mode = "end";
         $("#game-container").css("display","none");
         let total = _G.myQuestions[myGameStats.subject].length;
@@ -117,7 +136,6 @@ var myGameArea = {
         $("#unanswered").text(total-myGameStats.correct-myGameStats.incorrect);
         $("#end-screen").css("display","block");
         myGameStats.scar = myGameStats.correct/total < 0.7 || true;
-        console.log(myGameStats.correct/total);
     },
     //Clearing the canvas drawings
     clear() {
@@ -186,6 +204,7 @@ function component(width, height, appearance, x, y, type) {
     };    
 };
 
+
 //Setting up default positions for fog
 var comp = getComputedStyle(document.body);
 var fogWidth = parseInt(comp.height.replace("px",""))*1.84;
@@ -219,7 +238,7 @@ function updateGameArea() {
         myGameArea.context.filter = "brightness(0.5) opacity(0.5)";
         //Thunder effect
         if (randomEffect == 10 || myGameArea.activeEffect) {
-            myGameArea.context.filter = "brightness(0.8) opacity(0.5)";
+            myGameArea.context.filter = "brightness(1) opacity(0.75)";
             if (!myGameArea.activeEffect) {
                 myGameArea.activeEffect = "thunder";
                 $("#thunder").get()[0].currentTime = 0.5;
@@ -245,7 +264,15 @@ $("#play").on("click", function() {
     myGameArea.display();
 });
 
-//Restart quiz
+//Resume the game
+$("#resume").on("click", function() {
+    $("#pause-screen").css("display","none");
+    myGameArea.interval = setInterval(updateGameArea,1000/fps);
+    myGameArea.display();
+    $("#game-container").css("display","block");
+});
+
+//Restart the game
 $("#play-again").on("click", function() {
     $("#end-screen").css("display","none");
     myGameStats.reset();
@@ -289,11 +316,13 @@ $("#play-again").on("click", function() {
 //When the user comes back to the page
 $(window).focus(function() {
     $("#ambience").get()[0].play();
+    myGameArea.userPresent = true;
 });
 
 //When the user leaves the page
 $(window).blur(function() {
     $("#ambience").get()[0].pause();
+    myGameArea.userPresent = false;
 });
 
 });

@@ -16,7 +16,6 @@ body {
     color: white;
 }
 
-/* #F5F5DC */
 header {
     display: none;
     height: 10%;
@@ -31,6 +30,7 @@ h1 {
     color: white;
     font-size: 44px;
     line-height: 10vh; /* Match height of header to center vertically */
+    text-shadow: 2px 0 rgb(120, 8, 8), 0 2px rgb(120,8,8), 2px 0 rgb(120,8,8), 0 2px rgb(120,8,8);
 }
 
 canvas {

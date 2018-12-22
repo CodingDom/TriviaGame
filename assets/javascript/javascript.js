@@ -2,7 +2,7 @@ $(document).ready(function(){
 
 var fps = 50; //50 frames per second
 var frame = 0; //Current frame
-var seconds = 0;//Current amount of seconds
+var seconds = 30;//Current amount of seconds
 
 var myGameArea = {
     canvas : $("canvas").get()[0],
@@ -54,9 +54,9 @@ var myGameArea = {
             correctBtn.insertBefore($("#choices").children()[randomIndex]);
         };
         
-        $("#choices .tab").on("click", (event) => {
+        $("#choices .tab").on("click", function(event) {
             $("#choices .tab").off("click"); //Turn off event listener
-            this.mode = "transition";
+            myGameArea.mode = "transition";
             $("#countdown").get()[0].pause();
             $("#countdown").get()[0].load() // Restarts audio
             $("#choices .tab img").css("filter","grayscale(1) brightness(0.75)");
@@ -71,9 +71,9 @@ var myGameArea = {
                 $("#incorrect").get()[0].play();
             };
             correctBtn.find("img").css("filter","hue-rotate(100deg) brightness(1)"); //Display correct answer
-            setTimeout(() => {
+            setTimeout(function() {
                 myGameStats.question++;
-                this.display(subject);
+                myGameArea.display(subject);
             },2000);
         });
     },
@@ -85,8 +85,8 @@ var myGameArea = {
                 $("#countdown").get()[0].play();
             };
             dispSeconds = "0" + dispSeconds;
-            $("#time").css({"color":"red","font-size":"44px"});
-            $("#time").animate({"font-size":"32px"},300);
+            $("#time").css({"color":"red","font-size":"44px","opacity":0.5});
+            $("#time").animate({"font-size":"32px","opacity":1},300);
         }
 
         if (seconds <= 0) {

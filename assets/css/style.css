@@ -73,6 +73,13 @@ h1 {
     margin: auto;
 }
 
+p {
+    position: relative;
+    display: table-cell;
+    vertical-align: middle;
+    z-index: 5;
+}
+
 #game-container {
     position: relative;
     display: none;
@@ -80,6 +87,32 @@ h1 {
     width: 90%;
     margin: auto;
     overflow: hidden;
+}
+
+#time-container {
+    position: absolute;
+    width: 100%;
+    top: -140px;
+    text-align: center;
+    
+}
+
+#time-backdrop {
+    position: relative;
+    display: inline-block;
+    height: 200px;
+    width: 200px;
+    background-image: radial-gradient(rgb(70,70,70), black);
+    border: 2px solid darkgray;
+    border-radius: 50%;
+}
+
+#time {
+    position: absolute;
+    display: block;
+    bottom: 15%;
+    padding-left: 39%;
+    font-size: 32px;
 }
 
 .tab {
@@ -99,13 +132,6 @@ h1 {
     margin: 20px 0;
     border-radius: 30px;
     font-size: 32px;
-}
-
-p {
-    position: relative;
-    display: table-cell;
-    vertical-align: middle;
-    z-index: 5;
 }
 
 #choices {

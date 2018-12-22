@@ -82,12 +82,18 @@ myGameArea.loopFog();
 $("#play").on("click", function() {
     $("#intro-container").css("display","none");
     $("#game-container").css("display","block");
+    if (myGameArea.fogger == false) {
+        myGameArea.fogger = true;
+        myGameArea.loopFog();
+    };
     $("#ambience").get()[0].play();
 });
 
 $(window).focus(function() {
-    myGameArea.fogger = true;
-    myGameArea.loopFog();
+    if (myGameArea.fogger == false) {
+        myGameArea.fogger = true;
+        myGameArea.loopFog();
+    };
     $("#ambience").get()[0].play();
 });
 

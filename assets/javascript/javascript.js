@@ -105,8 +105,13 @@ var myGameArea = {
     },
 
     end() {
-        this.mode = "ending";
+        this.mode = "end";
         $("#game-container").css("display","none");
+        let total = _G.myQuestions[myGameStats.subject].length;
+        $("#correct-text").text(myGameStats.correct);
+        $("#incorrect-text").text(myGameStats.incorrect);
+        $("#unanswered").text(total-myGameStats.correct-myGameStats.incorrect);
+        $("#end-screen").css("display","block");
     },
 
     clear() {

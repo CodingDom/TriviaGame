@@ -141,6 +141,56 @@ p {
     /* box-shadow: 0 5px 2px 0 rgb(136, 59, 59); */
 }
 
+#end-screen {
+    position: relative;
+    display: none;
+    height: 50%;
+    width: 50%;
+    margin: auto;
+    top: 30%;
+    background-image: radial-gradient(rgb(70,70,70), black);
+    border: 2px solid darkgray;
+    border-radius: 30px;
+}
+
+#end-heading {
+    position: relative;
+    height: 20%;
+    width: 100%;
+    font-size: 28px;
+}
+
+#end-heading p {
+    display: block;
+    margin-top: 10px;
+}
+
+#end-body {
+    position: relative;
+    height: 35%
+}
+
+#end-body p {
+    display: block;
+    margin: 10px;
+    font-size: 24px;
+}
+
+#end-bottom {
+    position: relative;
+    height: 30%;
+    width: 100%;
+}
+
+#play-again {
+    position: relative;
+    width: 342px;
+    height: 99px;
+    margin: auto;
+    bottom: 0;
+    font-size: 32px;
+}
+
 @media screen and (min-width: 768px) and (max-width: 981px) and (orientation: landscape) {
     #choices .tab {
         height: 40%;

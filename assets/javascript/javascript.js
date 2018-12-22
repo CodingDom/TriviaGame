@@ -58,13 +58,16 @@ var myGameArea = {
             $("#countdown").get()[0].load() // Restarts audio
             $("#choices .tab img").css("filter","grayscale(1) brightness(0.75)");
             if (this == correctBtn.get()[0]) {
-                correctBtn.find("img").css("filter","hue-rotate(100deg) brightness(1)");
                 myGameStats.correct++;
+                $("#correct").get()[0].play();
             }
             else {
                 $(this).find("img").css("filter","brightness(1)");
                 myGameStats.incorrect++;
+                $("#incorrect").get()[0].currentTime = 0.65; //Timing is a little off on audio file
+                $("#incorrect").get()[0].play();
             };
+            correctBtn.find("img").css("filter","hue-rotate(100deg) brightness(1)"); //Display correct answer
             setTimeout(function() {
                 myGameStats.question++;
                 myGameArea.display(subject);
@@ -85,14 +88,16 @@ var myGameArea = {
 
         if (seconds <= 0) {
             $("#choices .tab").off("click"); //Turn off answer choices click listener
-            $("#choices .tab");
+            $("#choices .tab").find("img").css("filter","brightness(1)");
             $("#countdown").get()[0].currentTime = 18;
             setTimeout(function() {
-                myGameStats.question++;
-                myGameArea.display();
                 $("#countdown").get()[0].pause();
                 $("#countdown").get()[0].load(); //Restarts audio
-            },2100);
+                setTimeout(function() {
+                    myGameStats.question++;
+                    myGameArea.display();
+                },1000);
+            },3000);
 
            
         };

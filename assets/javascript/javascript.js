@@ -8,11 +8,11 @@ var myGameArea = {
     mode : "intro",
     display() {
         const subject = myGameStats.subject;
-        if (_G.myQuestions.questions[subject].length <= myGameStats.question) {
+        if (_G.myQuestions[subject].length <= myGameStats.question) {
             this.end();
             return;
         };
-        const question = _G.myQuestions.questions[subject][myGameStats.question];
+        const question = _G.myQuestions[subject][myGameStats.question];
         myGameArea.mode = "transition";
         $("#transition").css("display","block");
         var static = $("#static").get()[0];
@@ -105,6 +105,7 @@ var myGameArea = {
     },
 
     end() {
+        console.log(this.mode);
         this.mode = "end";
         $("#game-container").css("display","none");
         let total = _G.myQuestions[myGameStats.subject].length;
@@ -133,7 +134,7 @@ var myGameStats = {
         for (var i = 0; i < arr.length; i++) {
             let prop = this[arr[i]];
             if (typeof(prop) == "number") {
-                this[arr[i]] = 0;
+                this[arr[i]] = 9;
             };
         };
     },
@@ -211,7 +212,6 @@ function updateGameArea() {
     });
 };
 
-
 myGameStats.reset();
 
 $("#background").css("right","-552vh");
@@ -222,6 +222,13 @@ $("#play").on("click", function() {
     $("#game-container").css("display","block");
     $("#ambience").get()[0].volume = 0.6;
     $("#ambience").get()[0].play(); //Playing background mmusic
+    myGameArea.display();
+});
+
+$("#play-again").on("click", function() {
+    $("#end-screen").css("display","none");
+    $("#game-container").css("display","block");
+    myGameStats.reset();
     myGameArea.display();
 });
 

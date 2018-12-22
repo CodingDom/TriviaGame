@@ -33,15 +33,10 @@ h1 {
     line-height: 10vh; /* Match height of header to center vertically */
 }
 
-#background {
+canvas {
     position: absolute;
-    height: 100%;
-    width: 736vh;
-    opacity: 0.5;
-    background-image: url("../images/fog.png");
-    background-repeat: repeat-x;
-    background-size: contain;
-    filter: brightness(0);
+    left: 0;
+    top: 0;
 }
 
 #intro-container {

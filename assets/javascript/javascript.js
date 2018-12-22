@@ -113,6 +113,8 @@ var myGameArea = {
         $("#incorrect-text").text(myGameStats.incorrect);
         $("#unanswered").text(total-myGameStats.correct-myGameStats.incorrect);
         $("#end-screen").css("display","block");
+        myGameStats.scar = myGameStats.correct/total < 0.7 || true;
+        console.log(myGameStats.correct/total);
     },
 
     clear() {
@@ -129,12 +131,13 @@ var myGameStats = {
     correct: 0,
     question: 0,
     subject: 'Chucky',
+    scar: false,
     reset: function() {
         var arr = Object.keys(this);
         for (var i = 0; i < arr.length; i++) {
             let prop = this[arr[i]];
             if (typeof(prop) == "number") {
-                this[arr[i]] = 9;
+                this[arr[i]] = 0;
             };
         };
     },
@@ -227,9 +230,41 @@ $("#play").on("click", function() {
 
 $("#play-again").on("click", function() {
     $("#end-screen").css("display","none");
-    $("#game-container").css("display","block");
     myGameStats.reset();
-    myGameArea.display();
+    if (myGameStats.scar) {
+        myGameArea.mode = "transition";
+        $("#transition").css("display","block");
+        var static = $("#static").get()[0];
+        static.play();
+        setTimeout(function() {
+            $("#transition").css("display","none");
+            static.pause();
+            static.load(); //Restart audio
+            var girl = $("<img>");
+            girl.attr("src","assets/images/girl.jpg");
+            girl.css({"height":"100%","width":"100%","top":"0","left":"0"});
+            $(document.body).append(girl);
+            $("#ah").get()[0].currentTime = 0.75;
+            $("#ah").get()[0].play();
+            var bright = 1;
+            var flash = setInterval(function() {
+                bright = (bright == 1 && 10 || 1);
+                console.log(bright);
+                girl.css("filter",`brightness(${bright})`);
+            },100);
+            setTimeout(function() {
+                clearInterval(flash);
+                girl.remove();
+                girl = null;
+                $("#game-container").css("display","block");
+                myGameArea.display();
+            },3000);
+        },2000);
+    } else {
+        $("#game-container").css("display","block");
+        myGameArea.display();
+    };
+    
 });
 
 //When the user comes back to the page

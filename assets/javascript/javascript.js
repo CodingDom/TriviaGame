@@ -117,7 +117,7 @@ var myGameArea = {
                 }
                 else {
                     $("#game-container").css("display","none");
-                    $("#pause-screen").css("display","block");
+                    $("#pause-screen").slideDown();
                     clearInterval(this.interval);
                 };
             },3000);
@@ -266,10 +266,11 @@ $("#play").on("click", function() {
 
 //Resume the game
 $("#resume").on("click", function() {
-    $("#pause-screen").css("display","none");
-    myGameArea.interval = setInterval(updateGameArea,1000/fps);
-    myGameArea.display();
-    $("#game-container").css("display","block");
+    $("#pause-screen").slideUp(function(){
+        myGameArea.interval = setInterval(updateGameArea,1000/fps);
+        myGameArea.display();
+        $("#game-container").css("display","block");
+    });
 });
 
 //Restart the game

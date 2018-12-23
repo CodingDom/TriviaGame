@@ -296,7 +296,6 @@ $("#play-again").on("click", function() {
             var bright = 1;
             var flash = setInterval(function() {
                 bright = (bright == 1 && 10 || 1);
-                console.log(bright);
                 girl.css("filter",`brightness(${bright})`);
             },100);
             setTimeout(function() {
